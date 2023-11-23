@@ -1,16 +1,23 @@
 # escribo_ebook
 
-A new Flutter project.
+### Instalação
+1. Clique no arquivo escribo-ebook.apk
+2. Pesquise por raw, atalho (ctrl + f), ou no canto superior direito verá um icone para baixar o arquivo, clique nele.
+3. Mande esse arquivo para um dispositivo android e instale. "O aplicativo não tem credenciais, o dispositivo android irá acusar como possivel arquivo malicioso"
 
-## Getting Started
+###Ou
 
-This project is a starting point for a Flutter application.
+### Instalação
+1. Clone o repositório
+```bash
+$ git clone https://github.com/Brunonasccimentto/escribo-ebook
+```
 
-A few resources to get you started if this is your first Flutter project:
+2. Conecte um emulador ou dispositivo android via usb
+2.1 Caso não tenha feito, ative a depuração via usb nas opções de desenvolvedor. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. Instale o apk
+```bash
+$ flutter install
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
