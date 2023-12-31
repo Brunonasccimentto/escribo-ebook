@@ -1,5 +1,5 @@
-import 'package:escribo_ebook/models/book/book.dart';
-import 'package:escribo_ebook/models/book/services/api/api.dart';
+import 'package:escribo_ebook/model/book/book.dart';
+import 'package:escribo_ebook/model/book/services/api/api.dart';
 
 class BookRepository {
   final bookApi = BookApiService();

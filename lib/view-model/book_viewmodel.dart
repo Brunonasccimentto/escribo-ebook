@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:escribo_ebook/models/book/book.dart';
-import 'package:escribo_ebook/models/book/book_repository.dart';
-import 'package:escribo_ebook/models/book/services/database/favorites_book_repository.dart';
+import 'package:escribo_ebook/model/book/book.dart';
+import 'package:escribo_ebook/model/book/book_repository.dart';
+import 'package:escribo_ebook/model/book/favorites_book_repository.dart';
 import 'package:escribo_ebook/shared/enums/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';

@@ -1,4 +1,4 @@
-import 'package:escribo_ebook/models/book/book.dart';
+import 'package:escribo_ebook/model/book/book.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 

@@ -1,7 +1,7 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:escribo_ebook/models/book/services/config.dart';
+import 'package:escribo_ebook/model/book/services/config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';

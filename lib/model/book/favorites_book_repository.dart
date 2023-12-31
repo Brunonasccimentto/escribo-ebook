@@ -1,5 +1,5 @@
-import 'package:escribo_ebook/models/book/book.dart';
-import 'package:escribo_ebook/models/book/services/database/database.dart';
+import 'package:escribo_ebook/model/book/book.dart';
+import 'package:escribo_ebook/model/book/services/database/database.dart';
 import 'package:isar/isar.dart';
 
 class FavoriteBookRepository {
