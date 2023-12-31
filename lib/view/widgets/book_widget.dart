@@ -1,6 +1,6 @@
-import 'package:escribo_ebook/models/book/book.dart';
-import 'package:escribo_ebook/view-models/book_viewmodel.dart';
-import 'package:escribo_ebook/view-models/system_info_viewmodel.dart';
+import 'package:escribo_ebook/model/book/book.dart';
+import 'package:escribo_ebook/view-model/book_viewmodel.dart';
+import 'package:escribo_ebook/view-model/system_info_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vocsy_epub_viewer/epub_viewer.dart';

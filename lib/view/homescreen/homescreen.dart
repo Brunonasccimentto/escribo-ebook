@@ -1,5 +1,5 @@
-import 'package:escribo_ebook/models/book/book.dart';
-import 'package:escribo_ebook/view-models/book_viewmodel.dart';
+import 'package:escribo_ebook/model/book/book.dart';
+import 'package:escribo_ebook/view-model/book_viewmodel.dart';
 import 'package:escribo_ebook/view/widgets/app_screen.dart';
 import 'package:escribo_ebook/view/widgets/book_widget.dart';
 import 'package:escribo_ebook/view/widgets/loading_widget.dart';
