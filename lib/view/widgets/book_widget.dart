@@ -25,7 +25,7 @@ class _BookWidgetState extends State<BookWidget> {
   }
 
   void isSaved() async {
-    isBookSaved = await Provider.of<FavoritebookViewmodel>(context).checkIfBookSaved(widget.book);
+    isBookSaved = await Provider.of<FavoritebookViewmodel>(context, listen: false).checkIfBookSaved(widget.book);
   }
 
   @override
