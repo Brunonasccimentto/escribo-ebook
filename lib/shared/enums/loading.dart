@@ -1,5 +1,6 @@
-enum LoadingStatus {
+enum Status {
   loading,
   completed,
-  alreadyDownloaded
+  alreadyDownloaded,
+  error
 }
