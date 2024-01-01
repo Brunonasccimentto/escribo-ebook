@@ -22,6 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    Provider.of<BookViewModel>(context).dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<BookModel> bookList = Provider.of<BookViewModel>(context).bookApiResponse;
     
