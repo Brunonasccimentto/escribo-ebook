@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/model/book/book_repository.dart';
-import 'package:escribo_ebook/model/book/favorites_book_repository.dart';
 import 'package:escribo_ebook/shared/enums/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,9 +12,9 @@ class BookViewModel extends ChangeNotifier {
     return _bookApiResponse;
   }
 
-  Future<void> fetchBookData() async {
+  Future<void> getBookList() async {
     try {
-      List<BookModel> bookList = await BookRepository().fetchBookList();
+      List<BookModel> bookList = await BookRepository().listBooks();
       _bookApiResponse = bookList;
     } catch (e) {
       _bookApiResponse = [];
@@ -54,48 +53,8 @@ class BookViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<BookModel> _favoriteBooks = [];
-
-  get favoriteBooks {
-    return _favoriteBooks;
-  }
-
-  Future<void> getFavoritesBookList() async {
-    try {
-      List<BookModel> favoriteBookList = await FavoriteBookRepository().listFavoriteBooks();
-      _favoriteBooks = favoriteBookList;
-    } catch (e) {
-      _favoriteBooks = [];
-    }
-    
-    notifyListeners();
-  }
-
-  Future<void> saveBook(BookModel book) async {
-    try {
-      await FavoriteBookRepository().addBookOnFavorites(book);
-      await getFavoritesBookList();
-    } catch (e) {
-      rethrow;
-    } 
-  }
-
-  Future<void> removeBook(BookModel book) async {
-    try {
-      await FavoriteBookRepository().removeBookOnFavorites(book);
-      await getFavoritesBookList();
-    } catch (e) {
-      rethrow;
-    } 
-  }
-
-  checkIfBookSaved(BookModel book) async {
-    return await FavoriteBookRepository().isBookSaved(book);
-  }
-
   checkIfBookDownloaded(String filePath) async {
     File file = File(filePath);
     return await file.exists();
   }
-
 }
