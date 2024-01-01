@@ -1,3 +1,4 @@
+import 'package:escribo_ebook/view-model/favoritebook_viewmodel.dart';
 import 'package:escribo_ebook/view-model/system_info_viewmodel.dart';
 import 'package:escribo_ebook/view/favorites/favorites.dart';
 import 'package:escribo_ebook/view/homescreen/homescreen.dart';
@@ -17,6 +18,7 @@ class AppWidget extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: BookViewModel()),
+        ChangeNotifierProvider.value(value: FavoritebookViewmodel()),
         ChangeNotifierProvider.value(value: SystemInfoViewModel())
         ],
       child: MaterialApp(
