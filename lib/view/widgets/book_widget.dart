@@ -1,5 +1,6 @@
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/view-model/book_viewmodel.dart';
+import 'package:escribo_ebook/view-model/favoritebook_viewmodel.dart';
 import 'package:escribo_ebook/view-model/system_info_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class _BookWidgetState extends State<BookWidget> {
   }
 
   void isSaved() async {
-    isBookSaved = await Provider.of<BookViewModel>(context).checkIfBookSaved(widget.book);
+    isBookSaved = await Provider.of<FavoritebookViewmodel>(context).checkIfBookSaved(widget.book);
   }
 
   @override
@@ -79,8 +80,8 @@ class _BookWidgetState extends State<BookWidget> {
                   ), 
                   onPressed: () { 
                     isBookSaved ? 
-                    controller.removeBook(widget.book) : 
-                    controller.saveBook(widget.book);
+                    Provider.of<FavoritebookViewmodel>(context, listen: false).removeBook(widget.book) : 
+                    Provider.of<FavoritebookViewmodel>(context, listen: false).saveBook(widget.book);
                   }
                 ),
               )

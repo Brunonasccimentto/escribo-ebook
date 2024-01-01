@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<BookViewModel>(context).fetchBookData();
+    Provider.of<BookViewModel>(context).getBookList();
     super.didChangeDependencies();
   }
 
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: Text('Favoritos', 
             style: TextStyle(
               color: Theme.of(context).appBarTheme.titleTextStyle!.color
-            ),),
+            )),
             icon: Icon(Icons.favorite, color: Theme.of(context).hintColor), 
             onPressed: () { 
               Navigator.of(context).pushNamed('/favorites');

@@ -1,5 +1,5 @@
 import 'package:escribo_ebook/model/book/book.dart';
-import 'package:escribo_ebook/view-model/book_viewmodel.dart';
+import 'package:escribo_ebook/view-model/favoritebook_viewmodel.dart';
 import 'package:escribo_ebook/view/widgets/app_screen.dart';
 import 'package:escribo_ebook/view/widgets/book_widget.dart';
 import 'package:escribo_ebook/view/widgets/loading_widget.dart';
@@ -17,13 +17,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<BookViewModel>(context).getFavoritesBookList();
+    Provider.of<FavoritebookViewmodel>(context).getFavoritesBookList();
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<BookModel> favoriteBookList = Provider.of<BookViewModel>(context).favoriteBooks;
+    List<BookModel> favoriteBookList = Provider.of<FavoritebookViewmodel>(context).favoriteBooks;
  
     return AppScreen(
       appBar: AppBar(
