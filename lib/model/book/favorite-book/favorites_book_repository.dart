@@ -1,10 +1,27 @@
 import 'package:escribo_ebook/model/book/book.dart';
+import 'package:escribo_ebook/model/book/interface/ibook.dart';
+import 'package:escribo_ebook/model/book/interface/ifavoritebooks.dart';
+import 'package:escribo_ebook/model/book/services/api/api.dart';
 import 'package:escribo_ebook/model/book/services/database/database.dart';
 import 'package:isar/isar.dart';
 
-class FavoriteBookRepository {
+class FavoriteBookRepository extends IbookRepository implements IfavoriteBooks {
   final database = DatabaseService();
+  final bookApi = BookApiService();
+
+  @override
+  Future<List<BookModel>> listBooks() async {
+    final isarDB = await database.openDB();   
+    return await isarDB.bookModels.where().findAll();
+  }
+
+  @override
+  Future<String> fetchFile(String url, String filename) async {
+    String response = await bookApi.getFile(url, filename);
+    return response;
+  }
   
+  @override
   Future<void> addBookOnFavorites(BookModel book) async {
     final isarDB = await database.openDB();
     
@@ -13,6 +30,7 @@ class FavoriteBookRepository {
     });
   }
 
+  @override
   Future<void> removeBookOnFavorites(BookModel book) async {
     final isarDB = await database.openDB();
     
@@ -21,11 +39,7 @@ class FavoriteBookRepository {
     });
   }
 
-  Future<List<BookModel>> listFavoriteBooks() async {
-    final isarDB = await database.openDB();   
-    return await isarDB.bookModels.where().findAll();
-  }
-
+  @override
   Future<bool> isBookSaved(BookModel book) async {
     final isarDB = await database.openDB();   
     final isBookSaved = await isarDB.bookModels.filter().idEqualTo(book.id).findFirst();
@@ -35,4 +49,6 @@ class FavoriteBookRepository {
 
     return false;  
   }
+  
+  
 }
