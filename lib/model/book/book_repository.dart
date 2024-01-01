@@ -1,13 +1,14 @@
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/model/book/interface/ibook.dart';
 import 'package:escribo_ebook/model/book/services/api/api.dart';
+import 'package:escribo_ebook/model/book/services/api/api_endpoints.dart';
 
 class BookRepository extends IbookRepository {
   final bookApi = BookApiService();
 
   @override
   Future<List<BookModel>> listBooks() async {
-    dynamic response = await bookApi.getResponse();
+    dynamic response = await bookApi.getResponse(ApiEndPoints().getBooks);
     final jsonData = response as List;
     List<BookModel> bookList = jsonData.map((json) => BookModel.fromJson(json)).toList();
     return bookList;
