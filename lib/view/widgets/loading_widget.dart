@@ -13,12 +13,12 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoadingStatus loading = Provider.of<BookViewModel>(context).loading;
+    Status loading = Provider.of<BookViewModel>(context).loading;
 
-    return loading == LoadingStatus.loading ?
+    return loading == Status.loading ?
       const PositionedCircularIndicator(text: 'Baixando.... E-pub')
 
-    : loading == LoadingStatus.alreadyDownloaded ?
+    : loading == Status.alreadyDownloaded ?
       const PositionedCircularIndicator(text: 'Abrindo.... E-pub')
 
     : Container();

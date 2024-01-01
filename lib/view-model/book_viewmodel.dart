@@ -24,7 +24,7 @@ class BookViewModel extends ChangeNotifier {
   }
 
   String _bookApiFilePathResponse = '';
-  LoadingStatus loading = LoadingStatus.completed;
+  Status loading = Status.completed;
 
   get bookApiFilePathResponse {
     return _bookApiFilePathResponse;
@@ -36,20 +36,20 @@ class BookViewModel extends ChangeNotifier {
     bool thisBookIsDownloaded = await checkIfBookDownloaded(filePath);
 
     if(thisBookIsDownloaded) {
-      loading = LoadingStatus.alreadyDownloaded;
+      loading = Status.alreadyDownloaded;
       notifyListeners();
 
       _bookApiFilePathResponse = filePath;
       
     } else {
-      loading = LoadingStatus.loading;
+      loading = Status.loading;
       notifyListeners();
 
       String newfilePath = await BookRepository().fetchFile(url, filename);
       _bookApiFilePathResponse = newfilePath;
     }
 
-    loading = LoadingStatus.completed;
+    loading = Status.completed;
     notifyListeners();
   }
 
