@@ -31,3 +31,14 @@ $ flutter install
 - **Ler livro:** Ao terminar o download o Ebook vai ser aberto no próprio aplicativo, para ler novamente, toque na capa do livro.
 - **Favoritar livro:** Para adicionar um livro a sua lista de favoritos, toque no icone de marcador de livro no canto superior direito do livro.
 
+### ScreenShots
+
+#### Tela principal
+<img src="assets/img/Screenshot_1704071230.png">
+
+#### Tela de livros favoritos do usuário
+<img src="assets/img/Screenshot_1704071259.png">
+
+#### Tela de leitura do Ebook
+<img src="assets/img/Screenshot_1704071573.png">
+
