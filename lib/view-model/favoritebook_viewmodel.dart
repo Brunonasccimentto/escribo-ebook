@@ -1,8 +1,13 @@
+import 'package:escribo_ebook/interfaces/mainservices.dart';
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/model/book/favorite-book/favorites_book_repository.dart';
 import 'package:flutter/material.dart';
 
 class FavoritebookViewmodel extends ChangeNotifier {
+  final IMainServices mainServices;
+
+  FavoritebookViewmodel({required this.mainServices});
+
   List<BookModel> _favoriteBooks = [];
 
   get favoriteBooks {
@@ -11,7 +16,7 @@ class FavoritebookViewmodel extends ChangeNotifier {
 
   Future<void> getFavoritesBookList() async {
     try {
-      List<BookModel> favoriteBookList = await FavoriteBookRepository().listBooks();
+      List<BookModel> favoriteBookList = await FavoriteBookRepository(mainServices: mainServices).listBooks();
       _favoriteBooks = favoriteBookList;
     } catch (e) {
       _favoriteBooks = [];
@@ -22,7 +27,7 @@ class FavoritebookViewmodel extends ChangeNotifier {
 
   Future<void> saveBook(BookModel book) async {
     try {
-      await FavoriteBookRepository().addBookOnFavorites(book);
+      await FavoriteBookRepository(mainServices: mainServices).addBookOnFavorites(book);
       await getFavoritesBookList();
     } catch (e) {
       rethrow;
@@ -31,14 +36,14 @@ class FavoritebookViewmodel extends ChangeNotifier {
 
   Future<void> removeBook(BookModel book) async {
     try {
-      await FavoriteBookRepository().removeBookOnFavorites(book);
+      await FavoriteBookRepository(mainServices: mainServices).removeBookOnFavorites(book);
       await getFavoritesBookList();
     } catch (e) {
       rethrow;
     } 
   }
 
-  checkIfBookSaved(BookModel book) async {
-    return await FavoriteBookRepository().isBookSaved(book);
+  Future<bool> checkIfBookSaved(BookModel book) async {
+    return await FavoriteBookRepository(mainServices: mainServices).isBookSaved(book);
   }
 }

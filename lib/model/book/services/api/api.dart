@@ -1,21 +1,25 @@
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:escribo_ebook/model/book/services/api/config.dart';
 import 'package:escribo_ebook/model/book/services/app_exception.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart';
 
 class BookApiService extends Config {
+  final Client? client;
+  final Future<Directory>? directory;
+  final HttpClient? httpClient;
+  File? file;
+
+  BookApiService({this.client,this.directory, this.file, this.httpClient});
 
   @override
-  Future getResponse(String url) async {
+  Future<dynamic> getResponse(String url) async {
     dynamic responseJson = [];
     
     try {
-      final response = await http.get(Uri.parse(baseUrl + url));
-      responseJson = returnResponse(response);
+      final response = await client?.get(Uri.parse(baseUrl + url));
+      responseJson = returnResponse(response!);
     } on SocketException {
        throw FetchDataException('No Internet Connection');
     }
@@ -23,7 +27,7 @@ class BookApiService extends Config {
     return responseJson;
   }
 
-   dynamic returnResponse(http.Response response) {
+   dynamic returnResponse(Response response) {
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
@@ -38,30 +42,27 @@ class BookApiService extends Config {
       case 500:
       default:
         throw FetchDataException(
-            'Error occured while communication with server' +
-                ' with status code : ${response.statusCode}');
+            'Error occured while communication with server with status code : ${response.statusCode}');
     }
   }
 
   Future<String> getFile(String url, String filename) async {
-    HttpClient httpClient = HttpClient();
-    File file;
     String filePath = '';
-    String dir = (await getApplicationDocumentsDirectory()).path;
+    Directory? dir = await directory;
 
     try {
-      final request = await httpClient.getUrl(Uri.parse(url));
-      final response = await request.close();
+      final request = await httpClient?.getUrl(Uri.parse(url));
+      final response = await request?.close();
 
-      if(response.statusCode == 200) {
-        final bytes = await consolidateHttpClientResponseBytes(response);
+      if(response?.statusCode == 200) {
+        final bytes = await consolidateHttpClientResponseBytes(response!);
         
-        filePath = '$dir/$filename.epub';
+        filePath = '${dir?.path}/$filename.epub';
         file = File(filePath);
-        await file.writeAsBytes(bytes);
+        await file?.writeAsBytes(bytes);
       }
       else {
-        filePath = 'Error code: ${response.statusCode}';
+        filePath = 'Error code: ${response?.statusCode}';
       }
     }
     catch(e){

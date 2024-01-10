@@ -1,11 +1,16 @@
 import 'dart:io';
+import 'package:escribo_ebook/interfaces/mainservices.dart';
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/model/book/book_repository.dart';
+import 'package:escribo_ebook/model/book/services/api/api.dart';
 import 'package:escribo_ebook/shared/enums/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class BookViewModel extends ChangeNotifier {
+  final IMainServices mainServices;
+
+  BookViewModel({required this.mainServices});
+
   List<BookModel> _bookApiResponse = [];
 
   get bookApiResponse {
@@ -14,7 +19,7 @@ class BookViewModel extends ChangeNotifier {
 
   Future<void> getBookList() async {
     try {
-      List<BookModel> bookList = await BookRepository().listBooks();
+      List<BookModel> bookList = await BookRepository(bookApi: BookApiService(client: mainServices.clientInst())).listBooks();
       _bookApiResponse = bookList;
     } catch (e) {
       _bookApiResponse = [];
@@ -31,8 +36,8 @@ class BookViewModel extends ChangeNotifier {
   }
 
   Future<void> downloadBook(String url, String filename) async {
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    String filePath = '$dir/$filename.epub';
+    Directory dir = await mainServices.dirInst();
+    String filePath = '${dir.path}/$filename.epub';
     bool thisBookIsDownloaded = await checkIfBookDownloaded(filePath);
 
     if(thisBookIsDownloaded) {
@@ -45,7 +50,13 @@ class BookViewModel extends ChangeNotifier {
       loading = Status.loading;
       notifyListeners();
 
-      String newfilePath = await BookRepository().fetchFile(url, filename);
+      String newfilePath = await BookRepository(
+              bookApi: BookApiService(
+                directory: mainServices.dirInst(),
+                httpClient: mainServices.httpclientInst(),
+                file: mainServices.fileInst()))
+          .fetchFile(url, filename);
+          
       _bookApiFilePathResponse = newfilePath;
     }
 
@@ -53,7 +64,7 @@ class BookViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  checkIfBookDownloaded(String filePath) async {
+  Future<bool> checkIfBookDownloaded(String filePath) async {
     File file = File(filePath);
     return await file.exists();
   }

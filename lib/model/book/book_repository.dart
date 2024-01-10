@@ -1,10 +1,14 @@
+
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/model/book/interface/ibook.dart';
 import 'package:escribo_ebook/model/book/services/api/api.dart';
 import 'package:escribo_ebook/model/book/services/api/api_endpoints.dart';
 
+
 class BookRepository extends IbookRepository {
-  final bookApi = BookApiService();
+  final BookApiService bookApi;
+
+  BookRepository({required this.bookApi});
 
   @override
   Future<List<BookModel>> listBooks() async {
