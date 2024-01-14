@@ -1,4 +1,3 @@
-import 'package:escribo_ebook/interfaces/mainservices.dart';
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/model/book/interface/ibook.dart';
 import 'package:escribo_ebook/model/book/interface/ifavoritebooks.dart';
@@ -7,16 +6,10 @@ import 'package:escribo_ebook/model/book/services/database/database.dart';
 import 'package:isar/isar.dart';
 
 class FavoriteBookRepository extends IbookRepository implements IfavoriteBooks {
-  final database = DatabaseService();
-  late final IMainServices mainServices;
-  late final BookApiService bookApi;
+  final BookApiService bookApi;
+  final DatabaseService database;
 
-  FavoriteBookRepository({required this.mainServices}) {
-    bookApi = BookApiService(
-      httpClient: mainServices.httpclientInst(),
-      directory: mainServices.dirInst(),
-      file: mainServices.fileInst());
-  }
+  FavoriteBookRepository({required this.bookApi, required this.database});
 
   @override
   Future<List<BookModel>> listBooks() async {
