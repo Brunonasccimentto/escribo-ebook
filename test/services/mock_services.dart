@@ -1,31 +1,30 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:escribo_ebook/interfaces/mainservices.dart';
+import 'package:escribo_ebook/services/interfaces/services.dart';
+import 'package:escribo_ebook/model/book/book.dart';
+import 'package:escribo_ebook/model/book/services/database/database.dart';
 import 'package:http/http.dart';
 import 'package:isar/isar.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockServices implements IMainServices {
-  @override
-  Client clientInst() {
-    return MockClient();
-  }
+class MockServices implements IServices {
 
   @override
-  Future<Directory> dirInst() async {
-    return MockDiretory();
-  }
+  final Client client = MockClient();
+  @override
+  final HttpClient httpClient = MockHttpClient();
+  @override
+  final File file = MockFile();
+  @override
+  final DatabaseService db = MockIsarDB();
 
   @override
-  HttpClient httpclientInst() {
-    return MockHttpClient();
+  Future<Directory> get directory => _dirInst();
+
+  Future<Directory> _dirInst() async {
+    return  Directory.systemTemp;
   }
-  
-  @override
-  File fileInst() {
-    return MockFile();
-  }
- 
+
+  final Isar isar = MockIsar();
 }
 
 class MockClient extends Mock implements Client{}
@@ -41,6 +40,24 @@ class MockHttpClientRequest extends Mock implements HttpClientRequest {
     path: '/guides/libraries/library-tour',
     fragment: 'numbers');
 }
+class MockHttpResponse extends Mock implements Response {}
 class MockHttpClientResponse extends Mock implements HttpClientResponse {}
 class MockFile extends Mock implements File{}
-class MockIsarDB extends Mock implements Isar {}
+class MockIsarDB extends Mock implements DatabaseService {}
+class MockIsarCollection extends Mock implements IsarCollection<BookModel> {
+
+  @override
+  QueryBuilder<BookModel, BookModel, QWhere> where({bool? distinct, Sort? sort}) {
+    return MockQueryBuilder();
+  }
+}
+class MockQueryBuilder extends Mock implements QueryBuilder<BookModel, BookModel, QWhere>{
+ @override
+  dynamic get _query {
+    // Adicione aqui qualquer lógica necessária para simular o comportamento do getter _query
+    return null; // Modifique conforme necessário
+  }
+}
+class MockIsar extends Mock implements Isar {
+  final List<BookModel> mockBooks = [];
+}
