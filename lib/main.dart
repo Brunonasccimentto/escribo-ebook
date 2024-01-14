@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:escribo_ebook/model/book/book_repository.dart';
+import 'package:escribo_ebook/model/book/favorite-book/favorites_book_repository.dart';
+import 'package:escribo_ebook/model/book/services/api/api.dart';
+import 'package:escribo_ebook/model/book/services/database/database.dart';
 import 'package:escribo_ebook/services/services.dart';
 import 'package:escribo_ebook/view-model/favoritebook_viewmodel.dart';
 import 'package:escribo_ebook/view-model/system_info_viewmodel.dart';
@@ -5,6 +11,7 @@ import 'package:escribo_ebook/view/favorites/favorites.dart';
 import 'package:escribo_ebook/view/homescreen/homescreen.dart';
 import 'package:escribo_ebook/view-model/book_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -18,8 +25,8 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: BookViewModel(mainServices: MainServices())),
-        ChangeNotifierProvider.value(value: FavoritebookViewmodel(mainServices: MainServices())),
+        ChangeNotifierProvider.value(value: BookViewModel(repository: BookRepository(bookApi: BookApiService(client: Client())))),
+        ChangeNotifierProvider.value(value: FavoritebookViewmodel(repository: FavoriteBookRepository(bookApi: BookApiService(directory: MainServices().dirInst(), file: MainServices().fileInst(), httpClient: HttpClient()), database: DatabaseService()))),
         ChangeNotifierProvider.value(value: SystemInfoViewModel())
         ],
       child: MaterialApp(
