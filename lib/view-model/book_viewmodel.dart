@@ -1,15 +1,14 @@
 import 'dart:io';
-import 'package:escribo_ebook/interfaces/mainservices.dart';
 import 'package:escribo_ebook/model/book/book.dart';
 import 'package:escribo_ebook/model/book/book_repository.dart';
-import 'package:escribo_ebook/model/book/services/api/api.dart';
+import 'package:escribo_ebook/services/services.dart';
 import 'package:escribo_ebook/shared/enums/loading.dart';
 import 'package:flutter/material.dart';
 
 class BookViewModel extends ChangeNotifier {
-  final IMainServices mainServices;
+  final BookRepository repository;
 
-  BookViewModel({required this.mainServices});
+  BookViewModel({ required this.repository});
 
   List<BookModel> _bookApiResponse = [];
 
@@ -19,7 +18,7 @@ class BookViewModel extends ChangeNotifier {
 
   Future<void> getBookList() async {
     try {
-      List<BookModel> bookList = await BookRepository(bookApi: BookApiService(client: mainServices.clientInst())).listBooks();
+      List<BookModel> bookList = await repository.listBooks();
       _bookApiResponse = bookList;
     } catch (e) {
       _bookApiResponse = [];
@@ -36,9 +35,10 @@ class BookViewModel extends ChangeNotifier {
   }
 
   Future<void> downloadBook(String url, String filename) async {
-    Directory dir = await mainServices.dirInst();
-    String filePath = '${dir.path}/$filename.epub';
+    Directory dir = await MainServices().directory;
+    String filePath = '$dir/$filename.epub';
     bool thisBookIsDownloaded = await checkIfBookDownloaded(filePath);
+  
 
     if(thisBookIsDownloaded) {
       loading = Status.alreadyDownloaded;
@@ -50,12 +50,7 @@ class BookViewModel extends ChangeNotifier {
       loading = Status.loading;
       notifyListeners();
 
-      String newfilePath = await BookRepository(
-              bookApi: BookApiService(
-                directory: mainServices.dirInst(),
-                httpClient: mainServices.httpclientInst(),
-                file: mainServices.fileInst()))
-          .fetchFile(url, filename);
+      String newfilePath = await repository.fetchFile(url, filename);
           
       _bookApiFilePathResponse = newfilePath;
     }
